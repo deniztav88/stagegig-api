@@ -12,9 +12,9 @@
 
 * Optional parameters end with **(?)**
  
-* If error occurs every endpoints returns ```error``` object, in any case ***you must check*** top-level error object;
+* If any error occurs in all endpoints returns ```error``` object, in any case ***you must check*** top-level error object;
 
-```js
+````js
 	
 	{
 		"error": {
@@ -28,7 +28,7 @@
 	if(reponseJson.error != null) {
 		// Do sth with error
 	}
-```
+````
 
 * Each endpoints except for login and token retrievals, takes ***info*** object, 
 
@@ -49,7 +49,7 @@
 
 * If token expires or not valid, rest server replies with **error.code** is ***9001*** , and you must retrieve another token from rest.
 
-```js
+````js
 	// Except for token expiration, (after you check "error.code" != 9001) you can skip 
 	// and print/show "error.msg" to user.
 	{
@@ -58,14 +58,13 @@
 			"msg": "Expired token."
 		}
 	}
-```
+````
 
 
 ## <a name="login"> Login/Token Retriaval </a>
 
 > Web App do not need this section for now, 
-
-Token, InviteCode, Mail, Name(?), Surname(?) automatically generated
+> Token, InviteCode, Mail, Name(?), Surname(?) automatically generated
 
 
   * ###**/vendor/login**
