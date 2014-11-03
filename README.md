@@ -110,7 +110,8 @@
 
 ## <a name="registration"> Registration Steps </a>
 
-* ###**/vendor/register/step1**
+
+* ###**/vendor/invite/login**
 
 > Automatically pre-fill Vendor Mail and name,surname if exist.
 > Vendor can change pre-defined values including mail.
