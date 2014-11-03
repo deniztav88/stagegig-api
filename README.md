@@ -155,7 +155,7 @@
 	````
 
 
-* ### **/vendor/register/mail_verification**
+* ###**/vendor/register/mail_verification**
 
 >User can also click directly from the mail (mobile app_redirect ?)
 
