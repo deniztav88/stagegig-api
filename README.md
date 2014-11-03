@@ -113,9 +113,7 @@
 * ###**/vendor/register/step1**
 
 > Automatically pre-fill Vendor Mail and name,surname if exist.
-> 
 > Vendor can change pre-defined values including mail.
-> 
 > If vendor changes its mail, rest replies accordingly
 
 
@@ -153,7 +151,6 @@
 		}
 	}
 	````
-
 
 * ###**/vendor/register/mail_verification**
 
@@ -219,7 +216,7 @@
 	````js
 	{
 		"info": {},
-		"sms_verification: {
+		"sms_verification": {
             "verification_code": "57126"
         }
 	}
