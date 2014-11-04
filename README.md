@@ -34,7 +34,7 @@
 	}
 ```
 
-* Each endpoints except for login and token retrievals, takes ***info*** object, 
+* Each endpoints - including login - ( token:"" // empty ), takes ***info*** object, 
 
 ```js
 	{
