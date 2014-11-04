@@ -52,6 +52,7 @@
 
 
 **Error Codes:** 
+
 8000-8999 -> App related errors, user does not meant to be see that.
 
 8001 -> Not a valid json structure
@@ -67,8 +68,8 @@
 9001 -> User input errors ( ex: not valid email ) ( according to language rest return pretty message )
 
 ```js
-	// Except for token expiration, (after you check "error.code" != 9001) you can skip 
-	// and print/show "error.msg" to user.
+	// If error code starts with "8" do not show related msg to user,
+	// If starts with "8" print related msg.
 	{
 		"error": {
 			"code": 8002
