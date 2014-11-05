@@ -34,12 +34,11 @@
 	}
 ```
 
-* Each endpoints - including login - ( token:"" // empty ), takes ***info*** object, 
+* Each endpoints, takes ***info*** object, 
 
 ```js
 	{
 		"info": {
-			"token": "generatedToken",
 			"language": "TR", // Two Character Universal Country Code, REST şu an sadece TR destekliyor.
 			"device": "WEB" // WEB|IOS|ANDROID (All uppercased)
 		},
@@ -61,8 +60,11 @@
 8102 -> Invalid Token
 
 8201 -> Database Error
+8202 -> Mailer Error ( Invite & Verify mails )
 
-8301 -> Not authorized to call this api
+8301 -> Internal Server Error
+
+8401 -> Not authorized to call this api
 
 9000-9999 -> User related errors, user **meant to see** that
 9001 -> User input errors ( ex: not valid email ) ( according to language rest return pretty message )
@@ -109,7 +111,7 @@
 
 * **/vendor/invite/login**
 
-> Dont forget to send ***info*** object even if token empty now!
+> Dont forget to send ***info*** object!
 
 * Payload:
 	
@@ -125,7 +127,7 @@
 	```js 
 	{
 		"token": "3198391dklandjka837341",
-		"step": 1|2|3|4,
+		"step": 1|2|3,
 		"vendor": {
 			"vendor_mail":"vendor@mail.com",
 			"vendor_name":"name", // optional
@@ -140,7 +142,6 @@
   "mail": "darkalive@gmail.com",
   "invite_code":"18667",
   "info": {
-    "token": "",
     "language": "EN",
     "device": "WEB"
   }
@@ -167,17 +168,19 @@
 	{
 		"info": {},
 		"step1": {
-			"vendor_mail":"mail", 
-			"vendor_password":"password",
-			"vendor_name":"name",
-			"vendor_surname":"surname",
+			"vendor_mail":"mail", // must be valid mail
+			"vendor_password":"password", // must be at least 6 character
+			"vendor_name":"name", // must be at least 2 character
+			"vendor_surname":"surname", // must be at least 2 character
+			"vendor_invite_code":"invite_code" // must be equal 5 character
+			"vendor_subscribes": true|false // optional defaults to false
 		}
 	}
 	```
   * Response:
 	    
 	```js 
-	// If mail adress changed
+	// If mail adress changed, already mail sent to user.
 	{
 		"action": {
 			"open": "mail",
@@ -196,7 +199,7 @@
 	}
 	```
 
-  * **/vendor/register/mail_verification**
+  * **/vendor/register/verify-mail**
 
 >User can also click directly from the mail (mobile app_redirect ?)
 
@@ -218,8 +221,43 @@
 			"open": "2"
 		}
 	}
+	// OR - If error not occured, it means succesfully verified
+	```js 
+	{
+        "error": {
+            "code": 9001
+            "msg": "Invalid code, please try again."
+        }
+    }
 	```
+  * **/vendor/register/send-verify-mail**
 
+  * Payload:
+	
+	```js 
+	{
+		"info": {} // Info object enough, I know who the vendor is from token.
+	}
+	```
+  * Response:
+	    
+	```js 
+	{
+		"action": {
+            "msg": "Onay mailiniz tekrar gönderilmiştir"
+		}
+	}
+	```
+		// OR - If error not occured, it means mail have sent succesfully.
+	```js 
+	{
+        "error": {
+            "code": 9001
+            "msg": "Please, wait 57 seconds to send again."
+        }
+    }
+	```
+	
   * **/vendor/register/step2**
 
 
@@ -234,8 +272,6 @@
             "vendor_birthday": "06/07/1987", // only DD/MM/YYYY allowed
             "vendor_birthplace":"Bandırma",
             "vendor_phone_number":"+90 (541) 625 89 25", // only +90 (XXX) XXX XX XX allowed
-            "":"",
-            "":"",
         }
 	}
 	```
@@ -274,6 +310,15 @@
 		}
 	}
 	```
+		// OR - If error not occured, it means succesfully verified
+	```js 
+	{
+        "error": {
+            "code": 9001
+            "msg": "Invalid code, please try again."
+        }
+    }
+	```
 	
 	
   * **/vendor/register/send-sms-verification**
@@ -291,11 +336,18 @@
 	```js
 	{
 		"action": {
-			"msg": "Yeni sms gönderimi yapabilmek için 60 saniye daha beklemelisiniz",
-            ||
             "msg": "Onay kodunuzu içeren SMS telefonunuza tekrar gönderilmiştir"
 		}
 	}
+	```
+	    // OR - If error not occured, it means mail have sent succesfully.
+	```js 
+	{
+        "error": {
+            "code": 9001
+            "msg": "Please, wait 57 seconds to send again."
+        }
+    }
 	```
 
 
